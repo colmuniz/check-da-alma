@@ -1,0 +1,74 @@
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+const steps = [
+  {
+    title: "Bem-vindo ao Check da Alma",
+    text: "Um espaço diário para refletir, se conectar com Deus e caminhar com propósito.",
+    button: "Começar a jornada",
+  },
+  {
+    title: "Nosso Propósito",
+    text: "Aqui você será guiado a examinar o coração, reconhecer falhas, agradecer e viver sua missão com Jesus. Tudo com leveza, profundidade e graça.",
+    button: "Quero viver isso",
+  },
+  {
+    title: "O que você vai encontrar",
+    text: "\u2022 Pecadômetro: para reconhecer e se arrepender\n\u2022 Gratidômetro: para lembrar o bem e agradecer\n\u2022 Fruto do Espírito: avalie sua vivência diária em Gálatas 5\n\u2022 Vivendo a Missão: foi sal e luz hoje?",
+    button: "Explorar cada um",
+  },
+  {
+    title: "Um espaço feito para a alma",
+    text: "Cores suaves, palavras inspiradas na Palavra e um design que acolhe. Esse é um app feito para te lembrar: sua alma importa.",
+    button: "Pronto para começar",
+  },
+  {
+    title: "Crie sua conta ou entre",
+    text: "Vamos guardar seu progresso espiritual?",
+    buttons: ["Criar conta", "Já tenho conta", "Explorar sem login"],
+  },
+];
+
+export default function Onboarding() {
+  const [step, setStep] = useState(0);
+  const [fadeIn, setFadeIn] = useState(false);
+  const current = steps[step];
+
+  useEffect(() => {
+    setFadeIn(false);
+    const timer = setTimeout(() => setFadeIn(true), 50);
+    return () => clearTimeout(timer);
+  }, [step]);
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#e8e4f4] to-[#fdfcf7] p-4">
+      <div
+        className={`max-w-md w-full transform transition-opacity duration-700 ease-in-out ${fadeIn ? "opacity-100" : "opacity-0"}`}
+      >
+        <Card className="rounded-2xl shadow-lg">
+          <CardContent className="p-6 text-center space-y-4">
+            <h2 className="text-2xl font-serif text-[#3b2d6b]">{current.title}</h2>
+            <p className="text-base text-[#4a4a4a] whitespace-pre-line">{current.text}</p>
+            {current.buttons ? (
+              <div className="space-y-2">
+                {current.buttons.map((btn, idx) => (
+                  <Button key={idx} className="w-full" variant="outline">
+                    {btn}
+                  </Button>
+                ))}
+              </div>
+            ) : (
+              <Button
+                onClick={() => setStep(step + 1)}
+                className="bg-[#a594f9] hover:bg-[#8f7efb] text-white"
+              >
+                {current.button}
+              </Button>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
